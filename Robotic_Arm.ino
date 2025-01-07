@@ -36,7 +36,7 @@ bool playRecordedSteps = false;
 unsigned long previousTimeInMilli = millis();
 
 const char* ssid     = "RobotArm";
-const char* password = "12345678"; //IP address to connect to the web interface - 192.168.4.1
+const char* password = "12345678"; //The IP-address to connect to the web interface - 192.168.4.1
 
 AsyncWebServer server(80);
 AsyncWebSocket wsRobotArmInput("/RobotArmInput");
