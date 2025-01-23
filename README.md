@@ -5,16 +5,6 @@
 
 ---
 
-## 🧾 **Table of Contents**  
-- 🎨 [About the Project](#-about-the-project)  
-- 🌟 [Features](#-features)  
-- 💻 [Technologies Used](#-technologies-used)  
-- 📖 [Usage](#-usage)  
-- 🛡️ [License](#-license)  
-- 🙌 [Acknowledgments](#-acknowledgments)  
-
----
-
 ## 🎨 **About the Project**  
 This project is focused on building a **robotic arm** powered by the versatile **ESP32 microcontroller**. With capabilities for precise motion and wireless control, this project explores the intersection of **robotics** and **IoT**.
 
@@ -32,6 +22,47 @@ This project is focused on building a **robotic arm** powered by the versatile *
 📡 **IoT Integration**: Expandable for cloud-based operations.
 
 ---
+
+## 🧭 **Workflow Diagram**
+
+```mermaid
+graph TD
+    A[Start Program] --> B[setup Function]
+    B --> C[Set Pin Modes]
+    B --> D[Initialize Serial Communication]
+    B --> E[Start WiFi Access Point]
+    B --> F[Configure Web Server]
+    B --> G[Configure WebSocket Handler]
+
+    A --> H[loop Function]
+    H --> I[Clean Up WebSocket Clients]
+    I --> J{Play Recorded Steps}
+    J --> |Yes| K[Execute Recorded Robot Arm Steps]
+    J --> |No| L[Wait for New Commands]
+
+    F --> M[handleRoot Function]
+    M --> N[Serve HTML Control Panel]
+
+    G --> O[WebSocket Events Handler]
+    O --> P[On Connect Event]
+    O --> Q[Send Current Robot Arm State]
+    O --> R[On Disconnect Event]
+    O --> S[On Data Event]
+    S --> T{Command Type}
+    T --> |Move Servo| U[Update Servo Position]
+    T --> |Record| V[Start or Stop Recording Steps]
+    T --> |Play| W[Start or Stop Playback]
+
+    K --> X[Gradual Movement to Initial Position]
+    K --> Y[Execute Playback Sequence]
+    K --> Z[Send Real-Time Updates to WebSocket]
+
+    N --> AA[HTML Control Panel]
+    AA --> AB[Sliders for Each Servo]
+    AA --> AC[Buttons for Record and Play]
+    AA --> AD[WebSocket Communication]
+    AD --> S
+```
 
 ## 💻 **Technologies Used**  
 | Component         | Purpose                      |  
