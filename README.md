@@ -8,6 +8,8 @@
 ## 🎨 **About the Project**  
 This project is focused on building a **robotic arm** powered by the versatile **ESP32 microcontroller**. With capabilities for precise motion and wireless control, this project explores the intersection of **robotics** and **IoT**.
 
+---
+
 ### 🔍 **Key Highlights**  
 - 👨‍💻 A fully programmable robotic arm.  
 - 📡 Wireless control via ESP32’s built-in Wi-Fi module.  
