@@ -28,6 +28,80 @@ This project is focused on building a **robotic arm** powered by the versatile *
 ## 🧭 **Workflow Diagram**
 
 ```mermaid
+flowchart TB
+    %% Hardware Layer
+    subgraph "Hardware Layer"
+        direction TB
+        ESP32["ESP32 Microcontroller"]:::hardware
+        Servos["Servo Motors (joints)"]:::hardware
+        PowerSupply(("Power Supply")):::hardware
+    end
+
+    %% Firmware Layer
+    subgraph "Firmware Layer"
+        direction TB
+        WiFi["Wi-Fi Subsystem"]:::firmware
+        AsyncHTTP["AsyncWebServer Module"]:::firmware
+        AsyncTCP["AsyncTCP Module"]:::firmware
+        WS["WebSocket Module"]:::firmware
+        ServoCtl["Servo Controller Logic"]:::firmware
+        RecordLogic["Recording/Playback Logic"]:::firmware
+        Buffer((Record Buffer)):::storage
+    end
+
+    %% Network Layer
+    subgraph "Network"
+        direction TB
+        AP(("Wi-Fi AP")):::network
+    end
+
+    %% Client UI Layer
+    subgraph "Client UI"
+        direction TB
+        Browser["Browser UI (Control Panel)"]:::client
+    end
+
+    %% Connections
+    PowerSupply --> ESP32
+    ESP32 --> Servos
+    Browser -->|HTTP| AsyncHTTP
+    Browser -->|WebSocket| WS
+    AsyncHTTP --> WS
+    WS --> ServoCtl
+    ServoCtl --> Servos
+    WS --> RecordLogic
+    RecordLogic --> Buffer
+    RecordLogic --> ServoCtl
+    RecordLogic --> WS
+    WS -->|status updates| Browser
+    ESP32 -.->|hosts| AP
+    Browser -.->|connects to| AP
+
+    %% Click Events
+    click WiFi "https://github.com/rajtilak-2020/robotic_arm/blob/main/Robotic_Arm.ino"
+    click AsyncHTTP "https://github.com/rajtilak-2020/robotic_arm/blob/main/Assets/ESPAsyncWebServer-master.zip"
+    click AsyncTCP "https://github.com/rajtilak-2020/robotic_arm/blob/main/Assets/AsyncTCP-master.zip"
+    click WS "https://github.com/rajtilak-2020/robotic_arm/blob/main/Robotic_Arm.ino"
+    click ServoCtl "https://github.com/rajtilak-2020/robotic_arm/blob/main/Robotic_Arm.ino"
+    click RecordLogic "https://github.com/rajtilak-2020/robotic_arm/blob/main/Robotic_Arm.ino"
+    click Buffer "https://github.com/rajtilak-2020/robotic_arm/blob/main/Robotic_Arm.ino"
+    click Browser "https://github.com/rajtilak-2020/robotic_arm/blob/main/README.md"
+
+    %% Styles
+    classDef hardware fill:#B8E1FF,stroke:#0077B6,stroke-width:1.5px,color:#003049
+    classDef firmware fill:#C1FFD7,stroke:#2D6A4F,stroke-width:1.5px,color:#1B4332
+    classDef network fill:#FFE066,stroke:#FFA200,stroke-width:1.5px,color:#7F4F24
+    classDef client fill:#FFCCD5,stroke:#D62828,stroke-width:1.5px,color:#6A040F
+    classDef storage fill:#E6CCFF,stroke:#6A4C93,stroke-width:1.5px,color:#3C096C
+
+    class Buffer storage
+    class PowerSupply hardware
+    class AP network
+```
+
+---
+
+```mermaid
 graph TD
     A[Start Program] --> B[setup Function]
     B --> C[Set Pin Modes]
