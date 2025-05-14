@@ -163,7 +163,7 @@ This project is licensed under the [MIT License](LICENSE).
 ---
 
 ## 🙌 **Acknowledgments**  
-- **Jyoti Ranjan Nayak Sir** for guiding us in this project.  
+- [Er Jyoti Ranjan Nayak](https://github.com/1997Jyotiranjannayak) Sir for guiding us in this project.  
 - Open-source tools for enabling smooth development.  
 - Our dedicated team for collaborative efforts.  
 
