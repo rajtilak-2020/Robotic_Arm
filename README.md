@@ -165,7 +165,12 @@ This project is licensed under the [MIT License](LICENSE).
 ## 🙌 **Acknowledgments**  
 - [Er Jyoti Ranjan Nayak](https://github.com/1997Jyotiranjannayak) Sir for guiding us in this project.  
 - Open-source tools for enabling smooth development.  
-- Our dedicated team for collaborative efforts.  
+- Our dedicated team for collaborative efforts.
+- [K Rajtilak](https://github.com/rajtilak-2020) (Team Lead)
+- [MD Riyasat Alli](https://github.com/RIYASATALLI) (Resource Management)
+- [Bikram Keshari Dash](https://github.com/bikram-k-dash2006) (Technical Lead)
+- [Biswajeet Muduli](https://www.instagram.com/_.ig.bulletflux._) (Documentation Management)
+- [Gargee Dash](https://www.instagram.com/_.maxddlin._) (Presentation Management)
 
 ---
 
