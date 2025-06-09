@@ -169,7 +169,7 @@ This project is licensed under the [MIT License](LICENSE).
 - [K Rajtilak](https://github.com/rajtilak-2020) (Team Lead)
 - [MD Riyasat Alli](https://github.com/RIYASATALLI) (Resource Management)
 - [Bikram Keshari Dash](https://github.com/bikram-k-dash2006) (Technical Lead)
-- [Biswajeet Muduli](https://www.instagram.com/_.ig.bulletflux._) (Documentation Management)
+- [Biswajeet Muduli](https://github.com/Biswajeet-12) (Documentation Management)
 - [Gargee Dash](https://www.instagram.com/_.maxddlin._) (Presentation Management)
 
 ---
