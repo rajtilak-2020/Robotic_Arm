@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <style>
+    body {
+      background: linear-gradient(145deg, #ededed, #626262, #313131);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    input[type=button]
+    {
+      background-color:rgb(255, 81, 0);color:rgb(0, 0, 0);border-radius:30px;width:100%;height:40px;font-size:20px;text-align:center;
+    }
+        
+    .noselect {
+      -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+         -khtml-user-select: none; /* Konqueror HTML */
+           -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+                user-select: none; /* Non-prefixed version, currently
+                                      supported by Chrome and Opera */
+    }
+
+    .slidecontainer {
+      width: 100%;
+    }
+
+    .slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 20px;
+      border-radius: 15px;
+      outline: none;
+      opacity: 0.6;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+      transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+      background-color: #3a474c;
+    }
+
+    .slider:hover {
+        opacity: 1;
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        background-color: #ff5733;
+      }
+  
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgb(0, 51, 255);
+      cursor: pointer;
+      
+    }
+
+    .slider::-moz-range-thumb {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: red;
+      cursor: pointer;
+      
+    }
+
+    </style>
+  
+  </head>
+  <div class="container">
+  <body class="noselect" align="center" style="background-color:white">
+     
+    <h1 style="color: rgb(0, 38, 255);text-align:center;">DRIEMS Polytechnic</h1>
+    <h3><b>CSE Group-8, Robotic Arm</b></h3>
+    <h2 style="color: rgb(255, 0, 0);text-align:center;">Control Panel</h2>
+    <table id="mainTable" style="width:380px;margin:auto;table-layout:fixed" CELLSPACING=10>
+      <tr/><tr/>
+      <tr/><tr/>
+      <tr>
+        <td style="text-align:left;font-size:25px"><b>Gripper:</b></td>
+        <td colspan=2>
+         <div class="slidecontainer">
+            <input type="range" min="0" max="180" value="90" class="slider" id="Gripper" oninput='sendButtonInput("Gripper",value)'>
+          </div>
+        </td>
+      </tr> 
+      <tr/><tr/>
+      <tr>
+        <td style="text-align:left;font-size:25px"><b>Elbow:</b></td>
+        <td colspan=2>
+         <div class="slidecontainer">
+            <input type="range" min="0" max="180" value="90" class="slider" id="Elbow" oninput='sendButtonInput("Elbow",value)'>
+          </div>
+        </td>
+      </tr> 
+      <tr/><tr/>      
+      <tr>
+        <td style="text-align:left;font-size:25px"><b>Shoulder:</b></td>
+        <td colspan=2>
+         <div class="slidecontainer">
+            <input type="range" min="0" max="180" value="90" class="slider" id="Shoulder" oninput='sendButtonInput("Shoulder",value)'>
+          </div>
+        </td>
+      </tr>  
+      <tr/><tr/>      
+      <tr>
+        <td style="text-align:left;font-size:25px"><b>Base:</b></td>
+        <td colspan=2>
+         <div class="slidecontainer">
+            <input type="range" min="0" max="180" value="90" class="slider" id="Base" oninput='sendButtonInput("Base",value)'>
+          </div>
+        </td>
+      </tr> 
+      <tr/><tr/> 
+      <tr>
+        <td style="text-align:left;font-size:20px"><b>Record:</b></td>
+        <td><input type="button" id="Record" value="OFF" ontouchend='onclickButton(this)'></td>
+        <td></td>
+      </tr>
+      <tr/><tr/> 
+      <tr>
+        <td style="text-align:left;font-size:20px"><b>Play:</b></td>
+        <td><input type="button" id="Play" value="OFF" ontouchend='onclickButton(this)'></td>
+        <td></td>
+      </tr>      
+    </table>
+  
+    <script>
+      var webSocketRobotArmInputUrl = "ws:\/\/" + window.location.hostname + "/RobotArmInput";      
+      var websocketRobotArmInput;
+      
+      function initRobotArmInputWebSocket() 
+      {
+        websocketRobotArmInput = new WebSocket(webSocketRobotArmInputUrl);
+        websocketRobotArmInput.onopen    = function(event){};
+        websocketRobotArmInput.onclose   = function(event){setTimeout(initRobotArmInputWebSocket, 2000);};
+        websocketRobotArmInput.onmessage    = function(event)
+        {
+          var keyValue = event.data.split(",");
+          var button = document.getElementById(keyValue[0]);
+          button.value = keyValue[1];
+          if (button.id == "Record" || button.id == "Play")
+          {
+            button.style.backgroundColor = (button.value == "ON" ? "green" : "red");  
+            enableDisableButtonsSliders(button);
+          }
+        };
+      }
+      
+      function sendButtonInput(key, value) 
+      {
+        var data = key + "," + value;
+        websocketRobotArmInput.send(data);
+      }
+      
+      function onclickButton(button) 
+      {
+        button.value = (button.value == "ON") ? "OFF" : "ON" ;        
+        button.style.backgroundColor = (button.value == "ON" ? "green" : "red");          
+        var value = (button.value == "ON") ? 1 : 0 ;
+        sendButtonInput(button.id, value);
+        enableDisableButtonsSliders(button);
+      }
+      
+      function enableDisableButtonsSliders(button)
+      {
+        if(button.id == "Play")
+        {
+          var disabled = "auto";
+          if (button.value == "ON")
+          {
+            disabled = "none";            
+          }
+          document.getElementById("Gripper").style.pointerEvents = disabled;
+          document.getElementById("Elbow").style.pointerEvents = disabled;          
+          document.getElementById("Shoulder").style.pointerEvents = disabled;          
+          document.getElementById("Base").style.pointerEvents = disabled; 
+          document.getElementById("Record").style.pointerEvents = disabled;
+        }
+        if(button.id == "Record")
+        {
+          var disabled = "auto";
+          if (button.value == "ON")
+          {
+            disabled = "none";            
+          }
+          document.getElementById("Play").style.pointerEvents = disabled;
+        }        
+      }
+           
+      window.onload = initRobotArmInputWebSocket;
+      document.getElementById("mainTable").addEventListener("touchend", function(event){
+        event.preventDefault()
+      });      
+    </script>
+    "Our project involves designing and developing a robotic arm powered by the ESP32 microcontroller. The arm is programmed for precision control and task automation, incorporating advanced features such as wireless connectivity for real-time command execution. This project demonstrates expertise in robotics, IoT integration, and microcontroller programming."<b>-Guided By: Jyoti Ranjan Nayak</b></div>
+    <div style="text-align:left;">
+       <b>Team Members:</b> 
+        <li>K Rajtilak</li>
+        <li>Bikram Keshari Dash</li>
+        <li>MD Riyasat Ali</li>
+        <li>Gargee Dash</li>
+        <li>Biswajeet Muduli</li>
+    </div>
+  </body>    
+</html>
